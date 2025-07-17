@@ -66,7 +66,7 @@ export class FxMarginGuardStack extends cdk.Stack {
       memorySize: 256,
       environment: {
         RATES_TABLE_NAME: exchangeRatesTable.tableName,
-        FIXER_API_KEY: process.env.FIXER_API_KEY || 'YOUR_FIXER_API_KEY_HERE',
+        FIXER_API_KEY: process.env.FIXER_API_KEY || '01d8965bb736c4eb4e16db355124de26',
         AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
       },
       tracing: lambda.Tracing.ACTIVE,
