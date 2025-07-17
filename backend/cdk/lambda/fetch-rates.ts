@@ -15,14 +15,19 @@ interface FixerResponse {
   rates: {
     [key: string]: number;
   };
+  error?: {
+    code: number;
+    type: string;
+    info?: string;
+  };
 }
 
 export const handler = async (event: ScheduledEvent): Promise<void> => {
   console.log('Fetching exchange rates...');
   
   try {
-    // Fetch USD to INR rate using Fixer.io with X-Ray tracing
-    const fixerUrl = `https://api.fixer.io/latest?access_key=${FIXER_API_KEY}&base=USD&symbols=INR`;
+    // Fetch EUR to INR and USD rates (free tier only supports EUR base)
+    const fixerUrl = `http://data.fixer.io/api/latest?access_key=${FIXER_API_KEY}&symbols=INR,USD`;
     const response = await traceExternalAPI('Fixer.io', fixerUrl, () => 
       fetch(fixerUrl)
     );
@@ -34,23 +39,29 @@ export const handler = async (event: ScheduledEvent): Promise<void> => {
     const data: FixerResponse = await response.json();
     
     if (!data.success) {
-      throw new Error(`Fixer API error: ${JSON.stringify(data)}`);
+      console.error('Fixer API error:', data);
+      throw new Error(`Fixer API error: ${data.error?.type || 'Unknown error'}`);
     }
     
-    const inrRate = data.rates.INR;
+    const eurToInr = data.rates.INR;
+    const eurToUsd = data.rates.USD;
     
-    if (!inrRate) {
-      throw new Error('INR rate not found in response');
+    if (!eurToInr || !eurToUsd) {
+      throw new Error('Required rates not found in response');
     }
+    
+    // Calculate USD to INR rate
+    const usdToInr = eurToInr / eurToUsd;
+    console.log(`EUR/INR: ${eurToInr}, EUR/USD: ${eurToUsd}, Calculated USD/INR: ${usdToInr}`);
     
     const timestamp = Date.now();
     const ttl = Math.floor(timestamp / 1000) + (90 * 24 * 60 * 60); // 90 days TTL
     
-    // Store the rate in DynamoDB
+    // Store the calculated USD-INR rate in DynamoDB
     const rateItem = {
       currencyPair: 'USD-INR',
       timestamp,
-      rate: inrRate,
+      rate: usdToInr,
       source: 'fixer.io',
       ttl,
     };
@@ -60,7 +71,7 @@ export const handler = async (event: ScheduledEvent): Promise<void> => {
       Item: rateItem,
     }));
     
-    console.log(`Successfully stored rate: 1 USD = ${inrRate} INR`);
+    console.log(`Successfully stored rate: 1 USD = ${usdToInr.toFixed(4)} INR`);
     
     // Also store daily reference rate for comparison
     const dailyReferenceKey = `USD-INR-DAILY-${new Date().toISOString().split('T')[0]}`;
@@ -69,7 +80,7 @@ export const handler = async (event: ScheduledEvent): Promise<void> => {
       Item: {
         currencyPair: dailyReferenceKey,
         timestamp,
-        rate: inrRate,
+        rate: usdToInr,
         type: 'daily_reference',
         ttl,
       },
