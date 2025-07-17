@@ -1,9 +1,8 @@
-import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
-import { DynamoDBDocumentClient, PutCommand } from '@aws-sdk/lib-dynamodb';
+import { PutCommand } from '@aws-sdk/lib-dynamodb';
 import { ScheduledEvent } from 'aws-lambda';
+import { createTracedDynamoDBClient, traceExternalAPI } from './lib/tracing';
 
-const client = new DynamoDBClient({});
-const docClient = DynamoDBDocumentClient.from(client);
+const docClient = createTracedDynamoDBClient();
 
 const RATES_TABLE = process.env.RATES_TABLE_NAME!;
 const FIXER_API_KEY = process.env.FIXER_API_KEY!;
@@ -22,9 +21,10 @@ export const handler = async (event: ScheduledEvent): Promise<void> => {
   console.log('Fetching exchange rates...');
   
   try {
-    // Fetch USD to INR rate using Fixer.io
-    const response = await fetch(
-      `https://api.fixer.io/latest?access_key=${FIXER_API_KEY}&base=USD&symbols=INR`
+    // Fetch USD to INR rate using Fixer.io with X-Ray tracing
+    const fixerUrl = `https://api.fixer.io/latest?access_key=${FIXER_API_KEY}&base=USD&symbols=INR`;
+    const response = await traceExternalAPI('Fixer.io', fixerUrl, () => 
+      fetch(fixerUrl)
     );
     
     if (!response.ok) {
