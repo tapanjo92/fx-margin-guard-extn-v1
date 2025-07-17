@@ -1,0 +1,42 @@
+{
+  "manifest_version": 3,
+  "name": "FX Margin Guard for Shopify",
+  "version": "1.0.0",
+  "description": "Track currency exchange impact on your Shopify profit margins",
+  "permissions": [
+    "activeTab",
+    "storage",
+    "alarms"
+  ],
+  "host_permissions": [
+    "https://*.myshopify.com/*",
+    "https://admin.shopify.com/*",
+    "https://fx-margin-guard-api.execute-api.ap-south-1.amazonaws.com/*"
+  ],
+  "background": {
+    "service_worker": "src/background/service-worker.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://*.myshopify.com/admin/orders/*",
+        "https://admin.shopify.com/store/*/orders/*"
+      ],
+      "js": ["src/content/shopify-order-tracker.js"],
+      "css": ["styles/content.css"]
+    }
+  ],
+  "action": {
+    "default_popup": "src/popup/popup.html",
+    "default_icon": {
+      "16": "assets/icons/icon-16.png",
+      "48": "assets/icons/icon-48.png",
+      "128": "assets/icons/icon-128.png"
+    }
+  },
+  "icons": {
+    "16": "assets/icons/icon-16.png",
+    "48": "assets/icons/icon-48.png",
+    "128": "assets/icons/icon-128.png"
+  }
+}

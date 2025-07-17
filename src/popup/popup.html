@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FX Margin Guard</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="popup-container">
+    <header class="popup-header">
+      <h1>💱 FX Margin Guard</h1>
+      <span id="connectionStatus" class="status-badge">Connecting...</span>
+    </header>
+
+    <div class="current-rates">
+      <h2>Live Exchange Rates</h2>
+      <div class="rate-display">
+        <span class="currency-pair">USD/INR</span>
+        <span id="currentRate" class="rate-value">--</span>
+        <span id="rateChange" class="rate-change">--</span>
+      </div>
+      <div class="last-updated">
+        Last updated: <span id="lastUpdated">--</span>
+      </div>
+    </div>
+
+    <div class="recent-orders">
+      <h2>Recent Order Analysis</h2>
+      <div id="ordersList" class="orders-list">
+        <div class="loading">Loading orders...</div>
+      </div>
+    </div>
+
+    <div class="summary-stats">
+      <div class="stat-card">
+        <span class="stat-label">Today's Impact</span>
+        <span id="todayImpact" class="stat-value">₹0</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-label">Week's Impact</span>
+        <span id="weekImpact" class="stat-value">₹0</span>
+      </div>
+    </div>
+
+    <footer class="popup-footer">
+      <button id="settingsBtn" class="btn-secondary">Settings</button>
+      <button id="refreshBtn" class="btn-primary">Refresh</button>
+    </footer>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

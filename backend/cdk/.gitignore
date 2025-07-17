@@ -1,0 +1,22 @@
+# CDK specific
+*.js
+!jest.config.js
+!lambda/**/*.ts
+*.d.ts
+node_modules
+
+# CDK asset staging directory
+.cdk.staging
+cdk.out
+cdk.context.json
+
+# Parcel build directories
+.cache
+dist
+
+# Local env files
+.env
+.env.local
+
+# MacOS
+.DS_Store

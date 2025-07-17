@@ -1,0 +1,232 @@
+/* FX Margin Guard - Popup Styles */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  width: 380px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: #f6f6f7;
+  color: #202223;
+}
+
+.popup-container {
+  background: white;
+}
+
+.popup-header {
+  background: #5c6ac4;
+  color: white;
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.popup-header h1 {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.status-badge {
+  font-size: 12px;
+  padding: 4px 8px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+
+.status-badge.connected {
+  background: #008060;
+}
+
+.current-rates {
+  padding: 20px;
+  border-bottom: 1px solid #e1e3e5;
+}
+
+.current-rates h2 {
+  font-size: 14px;
+  color: #6d7175;
+  margin-bottom: 12px;
+  font-weight: 500;
+}
+
+.rate-display {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.currency-pair {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.rate-value {
+  font-size: 24px;
+  font-weight: 700;
+  color: #202223;
+}
+
+.rate-change {
+  font-size: 14px;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.rate-change.positive {
+  color: #008060;
+  background: #e3f1df;
+}
+
+.rate-change.negative {
+  color: #d72c0d;
+  background: #fbeae5;
+}
+
+.last-updated {
+  font-size: 12px;
+  color: #8c9196;
+}
+
+.recent-orders {
+  padding: 20px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.recent-orders h2 {
+  font-size: 14px;
+  color: #6d7175;
+  margin-bottom: 12px;
+  font-weight: 500;
+}
+
+.orders-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.order-item {
+  padding: 12px;
+  background: #f6f6f7;
+  border-radius: 6px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.order-info {
+  flex: 1;
+}
+
+.order-id {
+  font-size: 13px;
+  font-weight: 500;
+  color: #202223;
+}
+
+.order-amount {
+  font-size: 12px;
+  color: #6d7175;
+}
+
+.order-impact {
+  text-align: right;
+}
+
+.impact-value {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.impact-value.loss {
+  color: #d72c0d;
+}
+
+.impact-value.gain {
+  color: #008060;
+}
+
+.impact-percent {
+  font-size: 11px;
+  color: #8c9196;
+}
+
+.summary-stats {
+  display: flex;
+  gap: 16px;
+  padding: 20px;
+  background: #f6f6f7;
+  border-top: 1px solid #e1e3e5;
+}
+
+.stat-card {
+  flex: 1;
+  background: white;
+  padding: 16px;
+  border-radius: 6px;
+  text-align: center;
+}
+
+.stat-label {
+  display: block;
+  font-size: 12px;
+  color: #6d7175;
+  margin-bottom: 8px;
+}
+
+.stat-value {
+  font-size: 20px;
+  font-weight: 700;
+  color: #202223;
+}
+
+.popup-footer {
+  padding: 16px;
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  background: white;
+  border-top: 1px solid #e1e3e5;
+}
+
+.btn-primary,
+.btn-secondary {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-primary {
+  background: #5c6ac4;
+  color: white;
+}
+
+.btn-primary:hover {
+  background: #4c5baf;
+}
+
+.btn-secondary {
+  background: #f6f6f7;
+  color: #202223;
+}
+
+.btn-secondary:hover {
+  background: #e4e5e7;
+}
+
+.loading {
+  text-align: center;
+  color: #8c9196;
+  padding: 20px;
+}
